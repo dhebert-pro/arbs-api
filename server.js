@@ -19,7 +19,7 @@ const urlDB = "mongodb://127.0.0.1:27017/piscines";
 // Nous connectons l'API à notre base de données
 mongoose.connect(urlDB, options);
 
-var db = mongoose.connection;
+const db = mongoose.connection;
 db.on("error", console.error.bind(console, "Erreur lors de la connexion"));
 db.once("open", () => {
   console.log("Connexion à la base OK");
