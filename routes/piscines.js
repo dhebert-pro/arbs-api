@@ -40,9 +40,7 @@ router
         if (err) {
           res.status(500).send(err);
         }
-        res.send({
-          message: "Bravo, la piscine est maintenant stockée en base de données"
-        });
+        res.send(piscine);
       });
     }
   });

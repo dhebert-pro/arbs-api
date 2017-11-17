@@ -7,7 +7,6 @@ const options = {
   connectTimeoutMS: 30000,
   useMongoClient: true
 };
-console.log(process.env.NODE_ENV);
 const urlDB = config.mongoURI[process.env.NODE_ENV];
 
 // Nous connectons l'API à notre base de données
