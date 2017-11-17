@@ -1,31 +1,24 @@
 const express = require("express");
-const mongoose = require("mongoose");
 const Joi = require("joi");
 const router = express.Router();
+
+const Piscine = require("../models/Piscine");
 
 const schema = Joi.object().keys({
   nom: Joi.string().required(),
   adresse: Joi.string().required()
 });
 
-const piscineSchema = mongoose.Schema({
-  nom: String,
-  adresse: String,
-  tel: String,
-  description: String
-});
-
-const Piscine = mongoose.model("Piscine", piscineSchema);
-
 router
   .route("/")
   .get((req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
-    Piscine.find(function(err, piscines) {
+    Piscine.find((err, piscines) => {
       if (err) {
         res.status(500).send(err);
+      } else {
+        res.json(piscines);
       }
-      res.json(piscines);
     });
   })
   .post((req, res) => {
@@ -36,14 +29,14 @@ router
       abortEarly: false
     });
     if (ret.error) {
-      res.send(ret.error.details);
+      res.status(500).send(ret.error.details);
     } else {
       const piscine = new Piscine();
       piscine.nom = ret.value.nom;
       piscine.adresse = ret.value.adresse;
       piscine.tel = ret.value.tel;
       piscine.description = ret.value.description;
-      piscine.save(function(err) {
+      piscine.save(err => {
         if (err) {
           res.status(500).send(err);
         }
@@ -74,7 +67,7 @@ router
       piscine.adresse = req.body.adresse;
       piscine.tel = req.body.tel;
       piscine.description = req.body.description;
-      piscine.save(function(err) {
+      piscine.save(err => {
         if (err) {
           res.status(500).send(err);
         }
