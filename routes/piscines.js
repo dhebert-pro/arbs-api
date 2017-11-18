@@ -40,7 +40,7 @@ router
         if (err) {
           res.status(500).send(err);
         }
-        res.send(piscine);
+        res.json(piscine);
       });
     }
   });
@@ -59,28 +59,35 @@ router
     Piscine.findById(req.params.piscine_id, (err, piscine) => {
       if (err) {
         res.status(500).send(err);
+      } else {
+        piscine.nom = req.body.nom || piscine.nom;
+        piscine.adresse = req.body.adresse || piscine.adresse;
+        piscine.tel = req.body.tel || piscine.tel;
+        piscine.description = req.body.description || piscine.description;
+        piscine.save(err => {
+          if (err) {
+            res.status(500).send(err);
+          } else {
+            res.json(piscine);
+          }
+        });
       }
-      // Mise à jour des données de la piscine
-      piscine.nom = req.body.nom;
-      piscine.adresse = req.body.adresse;
-      piscine.tel = req.body.tel;
-      piscine.description = req.body.description;
-      piscine.save(err => {
-        if (err) {
-          res.status(500).send(err);
-        }
-        // Si tout est ok
-        res.json({ message: "Bravo, mise à jour des données OK" });
-      });
     });
   })
   .delete((req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
-    Piscine.remove({ _id: req.params.piscine_id }, err => {
+    Piscine.findById(req.params.piscine_id, (err, piscine) => {
       if (err) {
         res.status(500).send(err);
+      } else {
+        piscine.remove(err => {
+          if (err) {
+            res.status(500).send(err);
+          } else {
+            res.json(piscine);
+          }
+        });
       }
-      res.json({ message: "Bravo, piscine supprimée" });
     });
   });
 

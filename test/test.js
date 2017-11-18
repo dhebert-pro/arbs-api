@@ -246,10 +246,170 @@ describe("api", () => {
           done();
         });
     });
-    it("should update a SINGLE blob on /blob/<id> PUT");
-    it("should delete a SINGLE blob on /blob/<id> DELETE");
+    it("should update a SINGLE piscine on /piscine/<id> PUT", done => {
+      const newPiscine = new Piscine({
+        nom: "NOM",
+        adresse: "ADRESSE",
+        tel: "TEL",
+        description: "DESCRIPTION"
+      });
+      newPiscine.save((err, data) => {
+        chai
+          .request(server)
+          .put(`/piscines/${data.id}`)
+          .send({
+            nom: "NAME",
+            adresse: "ADDRESS",
+            tel: "PHONE",
+            description: "DESCRIBE"
+          })
+          .end((err, res) => {
+            res.should.have.status(200);
+            res.should.be.json;
+            res.body.should.be.a("object");
+            res.body.should.have.property("nom");
+            res.body.should.have.property("adresse");
+            res.body.should.have.property("tel");
+            res.body.should.have.property("description");
+            res.body.should.have.property("_id");
+            res.body.nom.should.equal("NAME");
+            res.body.adresse.should.equal("ADDRESS");
+            res.body.tel.should.equal("PHONE");
+            res.body.description.should.equal("DESCRIBE");
+            res.body._id.should.equal(data.id);
+            done();
+          });
+      });
+    });
+    it("should update nothing with empty JSON on /piscine/<id> PUT", done => {
+      const newPiscine = new Piscine({
+        nom: "NOM",
+        adresse: "ADRESSE",
+        tel: "TEL",
+        description: "DESCRIPTION"
+      });
+      newPiscine.save((err, data) => {
+        chai
+          .request(server)
+          .put(`/piscines/${data.id}`)
+          .send({})
+          .end((err, res) => {
+            res.should.have.status(200);
+            res.should.be.json;
+            res.body.should.be.a("object");
+            res.body.should.have.property("nom");
+            res.body.should.have.property("adresse");
+            res.body.should.have.property("tel");
+            res.body.should.have.property("description");
+            res.body.should.have.property("_id");
+            res.body.nom.should.equal("NOM");
+            res.body.adresse.should.equal("ADRESSE");
+            res.body.tel.should.equal("TEL");
+            res.body.description.should.equal("DESCRIPTION");
+            res.body._id.should.equal(data.id);
+            done();
+          });
+      });
+    });
+    it("should return 500 if id not found on /piscine/<id> PUT", done => {
+      chai
+        .request(server)
+        .put("/piscines/0")
+        .send({})
+        .end((err, res) => {
+          res.should.have.status(500);
+          done();
+        });
+    });
+    it("should return 500 if error on /piscine/<id> PUT", done => {
+      const newPiscine = new Piscine({
+        nom: "NOM",
+        adresse: "ADRESSE",
+        tel: "TEL",
+        description: "DESCRIPTION"
+      });
+      newPiscine.save((err, data) => {
+        const mock = sinon
+          .mock(Piscine.prototype)
+          .expects("save")
+          .yields("error", null);
+        chai
+          .request(server)
+          .put(`/piscines/${data.id}`)
+          .send({})
+          .end((err, res) => {
+            res.should.have.status(500);
+            mock.restore();
+            done();
+          });
+      });
+    });
+    it("should delete a SINGLE blob on /blob/<id> DELETE", done => {
+      const newPiscine = new Piscine({
+        nom: "NOM",
+        adresse: "ADRESSE",
+        tel: "TEL",
+        description: "DESCRIPTION"
+      });
+      newPiscine.save((err, data) => {
+        chai
+          .request(server)
+          .delete(`/piscines/${data.id}`)
+          .end((err, res) => {
+            //Check response
+            res.should.have.status(200);
+            res.should.be.json;
+            res.body.should.be.a("object");
+            res.body.should.have.property("nom");
+            res.body.should.have.property("adresse");
+            res.body.should.have.property("tel");
+            res.body.should.have.property("description");
+            res.body.should.have.property("_id");
+            res.body.nom.should.equal("NOM");
+            res.body.adresse.should.equal("ADRESSE");
+            res.body.tel.should.equal("TEL");
+            res.body.description.should.equal("DESCRIPTION");
+            res.body._id.should.equal(data.id);
+            //Check if document is removed
+            Piscine.find((err, piscines) => {
+              piscines.length.should.equal(1);
+              done();
+            });
+          });
+      });
+    });
+    it("should return 500 if id not found on /piscine/<id> DELETE", done => {
+      chai
+        .request(server)
+        .delete("/piscines/0")
+        .end((err, res) => {
+          res.should.have.status(500);
+          done();
+        });
+    });
+    it("should return 500 if error on /piscine/<id> DELETE", done => {
+      const newPiscine = new Piscine({
+        nom: "NOM",
+        adresse: "ADRESSE",
+        tel: "TEL",
+        description: "DESCRIPTION"
+      });
+      newPiscine.save((err, data) => {
+        const mock = sinon
+          .mock(Piscine.prototype)
+          .expects("remove")
+          .yields("error", null);
+        chai
+          .request(server)
+          .delete(`/piscines/${data.id}`)
+          .end((err, res) => {
+            res.should.have.status(500);
+            mock.restore();
+            done();
+          });
+      });
+    });
   });
-
   afterEach(done => {
     Piscine.collection.drop(() => done());
   });
