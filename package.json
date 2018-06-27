@@ -1,10 +1,10 @@
 {
-  "name": "flashcards",
+  "name": "arbs-api",
   "version": "1.0.0",
-  "description": "API for Flashcards App",
+  "description": "API for ARBS Pass'Adhérent",
   "main": "index.js",
   "keywords": [],
-  "author": "Sourivore",
+  "author": "David Hébert",
   "license": "ISC",
   "scripts": {
     "start": "nodemon server.js",
@@ -18,7 +18,7 @@
     "express": "^4.16.2",
     "global": "^4.3.2",
     "joi": "^13.0.2",
-    "mongoose": "^4.13.3"
+    "mssql": "^4.1.0"
   },
   "devDependencies": {
     "chai": "^4.1.2",

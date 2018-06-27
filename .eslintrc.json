@@ -21,7 +21,7 @@
         "object-curly-spacing": ["error", "always"],
         "linebreak-style": [
             "error",
-            "unix"
+            "windows"
         ],
         "no-console": "warn",
         "prettier/prettier": 1,

@@ -11,14 +11,6 @@ const Piscine = require("../models/Piscine");
 
 chai.use(chaiHttp);
 
-describe("database", () => {
-  it("should connect to database", done => {
-    const db = require("../database");
-    should.exist(db.db);
-    done();
-  });
-});
-
 describe("api", () => {
   Piscine.collection.drop(() => null);
 

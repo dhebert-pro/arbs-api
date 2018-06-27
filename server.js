@@ -2,16 +2,11 @@
 require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
-const mongoose = require("mongoose");
-
-require("./database.js");
 
 const router = require("./routes");
 
 const hostname = "localhost";
 const port = 3001;
-
-mongoose.Promise = global.Promise;
 
 const app = express();
 

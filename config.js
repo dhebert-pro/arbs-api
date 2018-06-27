@@ -1,8 +1,12 @@
-var config = {};
+var config = {
+  user: "ARBS",
+  password: "Jnspqm_59",
+  server: "arbsdb.database.windows.net",
+  database: "arbsdb_pass_adherent",
 
-config.mongoURI = {
-  development: "mongodb://127.0.0.1:27017/piscines",
-  test: "mongodb://127.0.0.1:27017/mocha-test"
+  options: {
+    encrypt: true
+  }
 };
 
 module.exports = config;
