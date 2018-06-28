@@ -18,7 +18,7 @@ app
 // Start server
 app.listen(port, hostname, () => {
   /* istanbul ignore next */
-  if (process.env.NODE_ENV !== "test") {
+  if (process.env.NODE_ENV === "developpement") {
     console.log("Server started on http://" + hostname + ":" + port + "\n");
   }
 });

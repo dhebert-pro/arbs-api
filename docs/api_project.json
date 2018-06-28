@@ -1,0 +1,14 @@
+{
+  "name": "arbs-api",
+  "version": "1.0.0",
+  "description": "API for ARBS Pass'Adhérent",
+  "sampleUrl": false,
+  "defaultVersion": "0.0.0",
+  "apidoc": "0.3.0",
+  "generator": {
+    "name": "apidoc",
+    "time": "2018-06-28T15:39:24.047Z",
+    "url": "http://apidocjs.com",
+    "version": "0.17.6"
+  }
+}
